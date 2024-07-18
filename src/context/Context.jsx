@@ -12,7 +12,7 @@ export const ContextProvider = (props) => {
   const [responseData, setResponseData] = useState("");
 
   const onSendPrompt = async (prompt) => {
-    setResponseData("");
+    // setResponseData("");
     setIsLoading(true);
     setShowResult(true);
     setRecentPrompt(input);
@@ -23,8 +23,10 @@ export const ContextProvider = (props) => {
         if (index % 2 === 1) {
           // Odd indices contain text to be bolded
           return (
-            <span>
-              <br />
+            <span
+              style={{
+                whiteSpace: "pre-line",
+              }}>
               <b key={index}>{part}</b>
             </span>
           );
