@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
-import run from "../config/gemini";
+import run from "../Config/gemini";
+import { assets } from "../assets/assets";
 
 export const Context = createContext();
 
@@ -10,6 +11,25 @@ export const ContextProvider = (props) => {
   const [showResult, setShowResult] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [responseData, setResponseData] = useState("");
+
+  const cardItems = [
+    {
+      title: "Ideas to surprise a friend on their birthday",
+      icon: assets.compass_icon,
+    },
+    {
+      title: "Help write SQL to generate a report",
+      icon: assets.code_icon,
+    },
+    {
+      title: "I'm sick and need help crafting a text message for my boss",
+      icon: assets.message_icon,
+    },
+    {
+      title: "Give me ideas for what to do with what's in this image?",
+      icon: assets.bulb_icon,
+    },
+  ];
 
   const onSendPrompt = async (prompt) => {
     // setResponseData("");
@@ -60,6 +80,7 @@ export const ContextProvider = (props) => {
   };
 
   const contextVariables = {
+    cardItems,
     onSendPrompt,
     input,
     setInput,

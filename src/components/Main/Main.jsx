@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import "./main.css";
 import { assets } from "../../assets/assets";
-import { Context } from "../../context/Context";
+import { Context } from "../../Context/Context";
 
 const Main = () => {
   const {
+    cardItems,
     onSendPrompt,
     input,
     setInput,
@@ -45,27 +46,12 @@ const Main = () => {
             </div>
 
             <div className='cards'>
-              <div className='card'>
-                <p>Ideas to surprise a friend on their birthday</p>
-                <img src={assets.compass_icon} alt='compass_icon' />
-              </div>
-
-              <div className='card'>
-                <p>Help write SQL to generate a report</p>
-                <img src={assets.code_icon} alt='code_icon' />
-              </div>
-
-              <div className='card'>
-                <p>
-                  I'm sick and need help crafting a text message for my boss
-                </p>
-                <img src={assets.message_icon} alt='message_icon' />
-              </div>
-
-              <div className='card'>
-                <p>Give me ideas for what to do with what's in this image?</p>
-                <img src={assets.bulb_icon} alt='bulb_icon' />
-              </div>
+              {cardItems.map((card, index) => (
+                <div className='card' key={index}>
+                  <p>{card.title}</p>
+                  <img src={card.icon} alt={`icon_${index}`} />
+                </div>
+              ))}
             </div>
           </>
         ) : (
@@ -79,9 +65,7 @@ const Main = () => {
               <div className='result_data'>
                 <img src={assets.gemini_icon} alt='gemini_icon' />
                 {!isLoading ? (
-                  <>
-                    <p>{responseData}</p>
-                  </>
+                  <p>{responseData}</p>
                 ) : (
                   <div className='loader'>
                     <hr />
