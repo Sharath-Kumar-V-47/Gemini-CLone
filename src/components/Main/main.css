@@ -196,3 +196,25 @@ img:hover {
   font-size: 17px;
   line-height: 1.8;
 }
+
+@media (max-width: 600px) {
+  .main_bottom input {
+    flex: none;
+    width: auto;
+  }
+
+  .main_bottom img {
+    width: 20px;
+  }
+
+  .message_box {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 20px;
+    padding: 5px 10px;
+    bottom: 10px;
+  }
+}

@@ -112,11 +112,13 @@ const Main = () => {
             <div>
               <img src={assets.gallery_icon} alt='gallery_icon' />
               <img src={assets.mic_icon} alt='mic_icon' />
-              <img
-                src={assets.send_icon}
-                alt='send_icon'
-                onClick={handleSend}
-              />
+              {input && (
+                <img
+                  src={assets.send_icon}
+                  alt='send_icon'
+                  onClick={handleSend}
+                />
+              )}
             </div>
           </div>
 
