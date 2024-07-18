@@ -11,14 +11,13 @@ const Main = () => {
     setInput,
     recentPrompt,
     setRecentPrompt,
-    previousPrompt,
-    setPreviousPrompt,
     showResult,
     setShowResult,
     isLoading,
     setIsLoading,
     responseData,
     setResponseData,
+    error,
   } = useContext(Context);
 
   const handleSend = (e) => {
@@ -65,7 +64,19 @@ const Main = () => {
               <div className='result_data'>
                 <img src={assets.gemini_icon} alt='gemini_icon' />
                 {!isLoading ? (
-                  <p>{responseData}</p>
+                  Array.isArray(responseData) && responseData.length <= 0 ? (
+                    <div className='error-msg'>
+                      <p
+                        style={{
+                          color: "red",
+                          padding: "8px",
+                        }}>
+                        {error}
+                      </p>
+                    </div>
+                  ) : (
+                    <p>{responseData}</p>
+                  )
                 ) : (
                   <div className='loader'>
                     <hr />
