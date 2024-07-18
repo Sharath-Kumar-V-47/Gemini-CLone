@@ -10,7 +10,7 @@ const ContextProvider = (props) => {
   const [previousPrompt, setPreviousPrompt] = useState([]);
   const [showResult, setShowResult] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [responseData, setResponseData] = useState("");
+  const [responseData, setResponseData] = useState([]);
   const [error, setError] = useState("");
 
   const typingEffect = (index, nextWord) => {
@@ -42,11 +42,16 @@ const ContextProvider = (props) => {
     },
   ];
 
+  const newChat = () => {
+    setIsLoading(false);
+    setShowResult(false);
+  };
+
   const parseResponse = (text) => {
     let parts = text.split("**");
+
     let parsedText = parts.map((part, index) => {
       if (index % 2 === 1) {
-        // Odd indices contain text to be bolded
         return (
           <span
             key={index}
@@ -57,31 +62,32 @@ const ContextProvider = (props) => {
           </span>
         );
       } else {
-        // Handle single asterisks to add <br/>
-        return part.split("*").map((item, idx) => {
-          return (
-            <span key={idx}>
-              {idx > 0 && <br />}
-              {item}
-            </span>
-          );
-        });
+        return part.split("*").map((item, idx) => (
+          <span key={`${index}-${idx}`}>
+            {idx > 0 && <br />}
+            {item}
+          </span>
+        ));
       }
     });
-    return parsedText;
+
+    return parsedText.flat(); // Flatten the array of JSX elements
   };
 
   const onSendPrompt = async (prompt) => {
-    setResponseData("");
+    setResponseData([]);
     setIsLoading(true);
     setShowResult(true);
     setRecentPrompt(prompt);
-    setPreviousPrompt((prev) => [...prev, input]);
+    if (!previousPrompt.includes(prompt)) {
+      setPreviousPrompt((prev) => [...prev, prompt]);
+    }
+
     try {
       const response = await run(prompt);
       const modifiedResponse = parseResponse(response);
 
-      setResponseData([]);
+      setResponseData(modifiedResponse);
 
       modifiedResponse.forEach((word, index) => {
         typingEffect(index, word);
@@ -112,6 +118,7 @@ const ContextProvider = (props) => {
     setResponseData,
     error,
     setError,
+    newChat,
   };
 
   return (

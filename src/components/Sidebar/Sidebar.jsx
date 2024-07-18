@@ -4,11 +4,22 @@ import { assets } from "../../assets/assets";
 import { Context } from "../../Context/Context";
 
 const Sidebar = () => {
-  const { previousPrompt, onSendPrompt } = useContext(Context);
+  const {
+    onSendPrompt,
+    setRecentPrompt,
+    previousPrompt,
+    recentPrompt: activePrompt,
+    newChat,
+  } = useContext(Context);
   const [extend, setExtend] = useState(false);
 
   const handleMenuClick = () => {
     setExtend((val) => !val);
+  };
+
+  const loadPrompt = async (prompt) => {
+    setRecentPrompt(prompt);
+    await onSendPrompt(prompt);
   };
 
   return (
@@ -18,7 +29,7 @@ const Sidebar = () => {
           <img src={assets.menu_icon} alt='menu_icon' />
         </div>
 
-        <div className='newChat'>
+        <div className='newChat' onClick={() => newChat()}>
           <img src={assets.plus_icon} alt='new_chat' />
           {extend && <p>New Chat</p>}
         </div>
@@ -26,9 +37,19 @@ const Sidebar = () => {
         {extend && (
           <div className='recent'>
             <p className='recent_title'>Recent</p>
+
             {previousPrompt.map((prompt, index) => (
-              <div className='recent_entry' key={index}>
-                <img className='message_icon' src={assets.message_icon} />
+              <div
+                className={`recent_entry ${
+                  prompt === activePrompt ? "active" : ""
+                }`}
+                key={index}
+                onClick={() => loadPrompt(prompt)}>
+                <img
+                  className='message_icon'
+                  src={assets.message_icon}
+                  alt='message_icon'
+                />
                 <p className='prompt-text'>
                   {prompt.length > 20 ? `${prompt.slice(0, 20)}...` : prompt}
                 </p>

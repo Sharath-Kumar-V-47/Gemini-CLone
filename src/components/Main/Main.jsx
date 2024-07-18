@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./main.css";
 import { assets } from "../../assets/assets";
 import { Context } from "../../Context/Context";
@@ -18,12 +18,21 @@ const Main = () => {
     responseData,
     setResponseData,
     error,
+    setError,
   } = useContext(Context);
+
+  useEffect(() => {
+    if (showResult && !isLoading && responseData.length > 0) {
+      // Optionally handle response data here when it updates
+    }
+  }, [showResult, isLoading, responseData]);
 
   const handleSend = (e) => {
     if (e.key === "Enter") {
-      onSendPrompt(input);
-      setInput("");
+      if (input.trim() !== "") {
+        onSendPrompt(input.trim());
+        setInput("");
+      }
     }
   };
 
