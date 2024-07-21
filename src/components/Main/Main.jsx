@@ -10,15 +10,10 @@ const Main = () => {
     input,
     setInput,
     recentPrompt,
-    setRecentPrompt,
     showResult,
-    setShowResult,
     isLoading,
-    setIsLoading,
     responseData,
-    setResponseData,
     error,
-    setError,
   } = useContext(Context);
 
   useEffect(() => {
